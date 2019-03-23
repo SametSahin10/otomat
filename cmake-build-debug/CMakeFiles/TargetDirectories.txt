@@ -1,0 +1,3 @@
+/Users/sametsahin/C_Projects/otomat/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/sametsahin/C_Projects/otomat/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/sametsahin/C_Projects/otomat/cmake-build-debug/CMakeFiles/otomat.dir

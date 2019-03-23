@@ -2,23 +2,35 @@
 #include <stdlib.h>
 #include <string.h>
 
-FILE *openFile(char dir[]);
+FILE *openFile(char DIR[]);
 int findLineCount(FILE *fp);
 
 int main(void) {
     struct Kasa {
-        int YirmiBesKurusSayisi;
-        int ElliKurusSayisi;
-        int BirTLSayisi;
+        int yirmiBesKurusSayisi;
+        int elliKurusSayisi;
+        int birTLSayisi;
     };
 
-    struct Kasa kasa;
+    struct Urun {
+        int urunId;
+        char urunAd[50];
+        int urunStokSayisi;
+        char urunFiyat[10]; //Left as string intentionally for future Kurus-TL conversion.
+        char urunFiyatTipi[10];
+    };
 
-    const char dir[] = "C_Projects/otomat/urunler.txt";
+    const char DIR[] = "urunler.txt";
     FILE *fp;
-    fp = openFile(dir);
+    fp = openFile(DIR);
+    if (fp == NULL) {
+        printf("%s", "fp is null\n");
+    } else {
+        printf("%s", "fp is not null\n");
+    }
+
     int lineCount = findLineCount(fp);
-    fp = openFile(dir);
+    fp = openFile(DIR);
     char lines[lineCount][50];
 
     for(int i = 0; i < lineCount; i++) {
@@ -27,27 +39,43 @@ int main(void) {
 
     fclose(fp);
 
-    char bozukParaSayilari[3][10];
-    char urunBilgileri[4][50];
+    struct Kasa kasa;
+    sscanf(lines[0], "%d,%d,%d", &kasa.yirmiBesKurusSayisi, &kasa.elliKurusSayisi, &kasa.birTLSayisi);
+    printf("Yirmi bes kurus sayisi: %d\n", kasa.yirmiBesKurusSayisi);
+    printf("Elli kurus sayisi: %d\n", kasa.elliKurusSayisi);
+    printf("Bir TL sayisi: %d\n", kasa.birTLSayisi);
 
-    char delim[] = ",";
-    char *p = strtok(lines[0], delim);
-    while (p != NULL) {
-        for (int i = 0; i < 3; i++) {
-            strcpy(bozukParaSayilari[i], p);
-            p = strtok(NULL, delim);
-        }
-    }
+    struct Urun su;
+    struct Urun cay;
+    struct Urun kahve;
+    struct Urun cikolata;
+    struct Urun biskuvi;
 
-    for(int i = 0; i < 3; i++) {
-        printf("%s ", bozukParaSayilari[i]);
-    }
+    sscanf(lines[1], "%d,%[^,],%d,%s%s", &su.urunId, su.urunAd, &su.urunStokSayisi, su.urunFiyat, su.urunFiyatTipi);
+    sscanf(lines[2], "%d,%[^,],%d,%s%s", &cay.urunId, cay.urunAd, &cay.urunStokSayisi, cay.urunFiyat, cay.urunFiyatTipi);
+    sscanf(lines[3], "%d,%[^,],%d,%s%s", &kahve.urunId, kahve.urunAd, &kahve.urunStokSayisi, kahve.urunFiyat, kahve.urunFiyatTipi);
+    sscanf(lines[4], "%d,%[^,],%d,%s%s", &cikolata.urunId, cikolata.urunAd, &cikolata.urunStokSayisi, cikolata.urunFiyat, cikolata.urunFiyatTipi);
+    sscanf(lines[5], "%d,%[^,],%d,%s%s", &biskuvi.urunId, biskuvi.urunAd, &biskuvi.urunStokSayisi, biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
+
+    printf("%s", "\n");
+    printf("UrunId: %d\nUrunAd: %s\nUrunStokSayisi: %d\nurunFiyat: %s\nUrunFiyatTipi: %s\n", su.urunId, su.urunAd, su.urunStokSayisi, su.urunFiyat, su.urunFiyatTipi);
+    printf("%s", "\n");
+    printf("UrunId: %d\nUrunAd: %s\nUrunStokSayisi: %d\nurunFiyat: %s\nUrunFiyatTipi: %s\n", cay.urunId, cay.urunAd, cay.urunStokSayisi, cay.urunFiyat, cay.urunFiyatTipi);
+    printf("%s", "\n");
+    printf("UrunId: %d\nUrunAd: %s\nUrunStokSayisi: %d\nurunFiyat: %s\nUrunFiyatTipi: %s\n", kahve.urunId, kahve.urunAd, kahve.urunStokSayisi, kahve.urunFiyat, kahve.urunFiyatTipi);
+    printf("%s", "\n");
+    printf("UrunId: %d\nUrunAd: %s\nUrunStokSayisi: %d\nurunFiyat: %s\nUrunFiyatTipi: %s\n", cikolata.urunId, cikolata.urunAd, cikolata.urunStokSayisi, cikolata.urunFiyat, cikolata.urunFiyatTipi);
+    printf("%s", "\n");
+    printf("UrunId: %d\nUrunAd: %s\nUrunStokSayisi: %d\nurunFiyat: %s\nUrunFiyatTipi: %s\n", biskuvi.urunId, biskuvi.urunAd, biskuvi.urunStokSayisi, biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
 
     return 0;
 }
 
-FILE *openFile(char dir[]) {
-    FILE *fp = fopen(dir, "r+");
+FILE *openFile(char DIR[]) {
+    FILE *fp = fopen(DIR, "r+");
+    if(fp == NULL) {
+        printf("%s", "fp is null");
+    }
     return fp;
 }
 
@@ -59,5 +87,6 @@ int findLineCount(FILE *fp) {
             lineCount++;
         }
     }
+    printf("Line count is: %d\n", lineCount);
     return lineCount;
 }
