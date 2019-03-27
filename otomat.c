@@ -17,7 +17,7 @@ struct Urun {
     int urunId;
     char urunAd[50];
     int urunStokSayisi;
-    float urunFiyat; //Left as string intentionally for future Kurus-TL conversion.
+    float urunFiyat;
     char urunFiyatTipi[10];
 };
 
@@ -28,6 +28,10 @@ struct Urun cay;
 struct Urun kahve;
 struct Urun cikolata;
 struct Urun biskuvi;
+
+float insertedAmount = 0;
+float amountToPay = 0;
+float change;
 
 int main(void) {
     const char DIR[] = "urunler.txt";
@@ -58,13 +62,16 @@ int main(void) {
 //    printf("%d %s %d %f %s\n", biskuvi.urunId, biskuvi.urunAd, biskuvi.urunStokSayisi, biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
 
     //User Interface
-    float insertedAmount;
-    float amountToPay;
-    float change;
-    insertedAmount = creditInsertionUI();
-    amountToPay = productSelectionUi();
+
+    do {
+        insertedAmount = creditInsertionUI();
+    } while (insertedAmount == 0);
+    do {
+        amountToPay = productSelectionUi();
+    } while (amountToPay == 0);
     change = insertedAmount - amountToPay;
 
+    printf("%s", "\n");
     printf("Atilan para: %.2f\n", insertedAmount);
     printf("Odenmesi gereken ucret: %.2f\n", amountToPay);
     printf("Para ustu: %.2f\n", change);
@@ -92,9 +99,12 @@ int findLineCount(FILE *fp) {
 }
 
 float creditInsertionUI() {
-    float insertedAmount = 0;
     int choice;
     do {
+        if (insertedAmount != 0) {
+            printf("\n");
+            printf("Kullanilabilir kredi: %.2f\n\n", insertedAmount);
+        }
         printf("* %s", "25 Kurus ekle (1)\n");
         printf("* %s", "50 Kurus ekle (2)\n");
         printf("* %s", "1 TL ekle (3)\n");
@@ -102,14 +112,13 @@ float creditInsertionUI() {
         printf("%s", "\n");
         printf("x %s", "Reset (9)\n");
 
-//        fgets(&choice, 10, stdin);
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                insertedAmount += 0,25;
+                insertedAmount += 0.25;
                 break;
             case 2:
-                insertedAmount += 0,50;
+                insertedAmount += 0.50;
                 break;
             case 3:
                 insertedAmount += 1;
@@ -118,18 +127,22 @@ float creditInsertionUI() {
                 break;
             case 9:
                 insertedAmount = 0;
-                printf("Secimler iptal edildi");
+                printf("%s", "\n");
+                printf("%s", "Secimler iptal edildi\n\n");
                 break;
             default:
                 printf("%s", "\n");
                 printf("Lutfen gecerli bir secim yapiniz\n\n");
         }
     } while (choice != 9 && choice != 4);
+    if (insertedAmount != 0) {
+        printf("\n");
+        printf("Kullanilabilir kredi: %.2f\n\n", insertedAmount);
+    }
     return insertedAmount;
 }
 
 float productSelectionUi() {
-    float amountToPay = 0;
     float priceOfProduct;
     int numOfSuPurchased = 0;
     int numOfCayPurchased = 0;
@@ -137,7 +150,7 @@ float productSelectionUi() {
     int numOfCikolataPurchased = 0;
     int numOfBiskuviPurchased = 0;
     int choice;
-
+    printf("%s", "Urun secimi yapiniz.\n\n");
     do {
         printf("* %s", "Su (1)\n");
         printf("* %s", "Cay (2)\n");
@@ -199,13 +212,15 @@ float productSelectionUi() {
             case 6:
                 break;
             case 9:
-                printf("Secimler iptal edildi");
+                printf("%s", "\n");
+                printf("%s", "Secimler iptal edildi\n\n");
                 numOfSuPurchased = 0;
                 numOfCayPurchased = 0;
                 numOfKahvePurchased = 0;
                 numOfCikolataPurchased = 0;
                 numOfBiskuviPurchased = 0;
-                break;
+                amountToPay = 0;
+                return amountToPay;
             default:
                 printf("%s", "\n");
                 printf("Lutfen gecerli bir secim yapiniz\n\n");
@@ -219,3 +234,5 @@ float productSelectionUi() {
     biskuvi.urunStokSayisi -= numOfBiskuviPurchased;
     return amountToPay;
 }
+
+
