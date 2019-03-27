@@ -13,7 +13,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2e54af4d-ae94-490d-9cab-e485c8dc415c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/otomat.dir/otomat.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/otomat.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/otomat.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/otomat.dir/otomat.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/otomat.dir/otomat.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/otomat" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/otomat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otomat.c" beforeDir="false" afterPath="$PROJECT_DIR$/otomat.c" afterDir="false" />
     </list>
@@ -33,18 +34,28 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otomat.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="239" column="28" selection-start-line="239" selection-start-column="28" selection-end-line="239" selection-end-column="28" />
+            <state relative-caret-position="-100">
+              <caret line="274" column="46" lean-forward="true" selection-start-line="274" selection-start-column="46" selection-end-line="274" selection-end-column="46" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#2558#2699#0" />
-                <element signature="e#2701#2898#0" />
+                <element signature="e#2715#2856#0" />
+                <element signature="e#2858#3055#0" />
+                <element signature="e#3057#4340#0" />
+                <element signature="e#4342#7980#0" />
+                <element signature="e#7982#8398#0" />
+                <element signature="e#9511#9541#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>gecer</find>
+      <find>printf</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +68,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1280" />
     <option name="height" value="800" />
   </component>
@@ -66,7 +77,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -78,6 +88,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -122,30 +133,30 @@
       <workItem from="1553418797865" duration="10074000" />
       <workItem from="1553497478883" duration="287000" />
       <workItem from="1553604341821" duration="792000" />
-      <workItem from="1553689223047" duration="3528000" />
+      <workItem from="1553689223047" duration="5347000" />
+      <workItem from="1553710514289" duration="10568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26508000" />
+    <option name="totallyTimeSpent" value="38895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990099" visible="true" weight="0.11793215" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990099" visible="true" weight="0.2197092" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5009901" side_tool="true" weight="0.24973376" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32970297" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.41917807" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.41232878" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32876712" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32876712" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.49863014" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32970297" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.32970297" />
@@ -172,12 +183,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otomat.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="239" column="28" selection-start-line="239" selection-start-column="28" selection-end-line="239" selection-end-column="28" />
+        <state relative-caret-position="-100">
+          <caret line="274" column="46" lean-forward="true" selection-start-line="274" selection-start-column="46" selection-end-line="274" selection-end-column="46" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#2558#2699#0" />
-            <element signature="e#2701#2898#0" />
+            <element signature="e#2715#2856#0" />
+            <element signature="e#2858#3055#0" />
+            <element signature="e#3057#4340#0" />
+            <element signature="e#4342#7980#0" />
+            <element signature="e#7982#8398#0" />
+            <element signature="e#9511#9541#0" />
           </folding>
         </state>
       </provider>

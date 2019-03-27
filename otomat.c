@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 FILE *openFile(char DIR[]);
 int findLineCount(FILE *fp);
 float creditInsertionUI();
 float productSelectionUi();
+int checkForMoneyJam();
+void processChange(float totalAmountOfChange);
+float totalOfSafe();
 
 struct Kasa {
     int yirmiBesKurusSayisi;
@@ -33,11 +37,11 @@ float insertedAmount = 0;
 float amountToPay = 0;
 float change;
 
-int main(void) {
-    const char DIR[] = "urunler.txt";
-    FILE *fp;
-    fp = openFile(DIR);
+const char DIR[] = "urunler.txt";
+FILE *fp;
 
+int main(void) {
+    fp = openFile(DIR);
     int lineCount = findLineCount(fp);
     fp = openFile(DIR);
     char lines[lineCount][50];
@@ -66,16 +70,17 @@ int main(void) {
     do {
         insertedAmount = creditInsertionUI();
     } while (insertedAmount == 0);
+
     do {
         amountToPay = productSelectionUi();
     } while (amountToPay == 0);
-    change = insertedAmount - amountToPay;
 
+    change = insertedAmount - amountToPay;
     printf("%s", "\n");
-    printf("Atilan para: %.2f\n", insertedAmount);
+    printf("Yuklenen para: %.2f\n", insertedAmount);
     printf("Odenmesi gereken ucret: %.2f\n", amountToPay);
     printf("Para ustu: %.2f\n", change);
-
+    processChange(change);
     return 0;
 }
 
@@ -100,6 +105,7 @@ int findLineCount(FILE *fp) {
 
 float creditInsertionUI() {
     int choice;
+
     do {
         if (insertedAmount != 0) {
             printf("\n");
@@ -132,9 +138,10 @@ float creditInsertionUI() {
                 break;
             default:
                 printf("%s", "\n");
-                printf("Lutfen gecerli bir secim yapiniz\n\n");
+                printf("Lutfen gecerli bir secim yapiniz\n");
         }
     } while (choice != 9 && choice != 4);
+
     if (insertedAmount != 0) {
         printf("\n");
         printf("Kullanilabilir kredi: %.2f\n\n", insertedAmount);
@@ -151,6 +158,7 @@ float productSelectionUi() {
     int numOfBiskuviPurchased = 0;
     int choice;
     printf("%s", "Urun secimi yapiniz.\n\n");
+
     do {
         printf("* %s", "Su (1)\n");
         printf("* %s", "Cay (2)\n");
@@ -227,6 +235,21 @@ float productSelectionUi() {
         }
     } while (choice != 9 && choice != 6);
 
+    int moneyJamResult = checkForMoneyJam();
+
+    if (moneyJamResult == 1) {
+        printf("%s", "\n");
+        printf("%s", "Para sıkışması gerceklesti\n\n");
+        numOfSuPurchased = 0;
+        numOfCayPurchased = 0;
+        numOfKahvePurchased = 0;
+        numOfCikolataPurchased = 0;
+        numOfBiskuviPurchased = 0;
+        insertedAmount = 0;
+        amountToPay = 0;
+        return amountToPay;
+    }
+
     su.urunStokSayisi -= numOfSuPurchased;
     cay.urunStokSayisi -= numOfCayPurchased;
     kahve.urunStokSayisi -= numOfKahvePurchased;
@@ -235,4 +258,71 @@ float productSelectionUi() {
     return amountToPay;
 }
 
+int checkForMoneyJam() {
+    srand(time(NULL));
+    int randomNumber = rand() % 4 + 1;
+    printf("Random number is: %d", randomNumber);
+    if (randomNumber == 2) {
+        //Enlight the red LED.
+        //Reset everthing. Do not charge for any product.
+        return 1; //Means we have some money jammed.
+    } else {
+        //Enlight the green LED.
+        return 0; //No money jammed. Everthing's cool.
+    }
+}
 
+void processChange(float totalAmountOfChange) {
+    int numOfYirmiBesKurus = 0;
+    int numOfElliKurus = 0;
+    int numOfBirTL = 0;
+
+    float total = totalOfSafe();
+    if (totalAmountOfChange > total) {
+        printf("%s", "Kasada yeterli para yoktur.");
+        return;
+        //Show warning on Display (Kasada yeterli para yoktur)
+    }
+
+    if (totalAmountOfChange >= 1) {
+        numOfBirTL = (int) (totalAmountOfChange / 1);
+        if (kasa.birTLSayisi >= numOfBirTL) {
+            totalAmountOfChange -= (numOfBirTL * 1);
+            kasa.birTLSayisi -= numOfBirTL;
+        }
+        printf("Para ustu: %.2f\n", totalAmountOfChange);
+    }
+
+    if (totalAmountOfChange >= 0.50) {
+        numOfElliKurus = (int) (totalAmountOfChange / 0.50);
+        if (kasa.elliKurusSayisi >= numOfElliKurus) {
+            totalAmountOfChange -= (numOfElliKurus * 0.50);
+            kasa.elliKurusSayisi-= numOfElliKurus;
+        }
+        printf("Para ustu: %.2f\n", totalAmountOfChange);
+    }
+
+    if (totalAmountOfChange >= 0.25) {
+        numOfYirmiBesKurus = (int) (totalAmountOfChange / 0.25);
+        if (kasa.yirmiBesKurusSayisi >= numOfYirmiBesKurus) {
+            totalAmountOfChange -= (numOfYirmiBesKurus * 0.25);
+            kasa.yirmiBesKurusSayisi -= numOfYirmiBesKurus;
+        }
+        printf("Para ustu: %.2f\n", totalAmountOfChange);
+    }
+
+    printf("Bir TL Sayisi: %d\n", numOfBirTL);
+    printf("Elli kurus Sayisi: %d\n", numOfElliKurus);
+    printf("Yirmi Bes Kurus Sayisi: %d\n", numOfYirmiBesKurus);
+
+    fp = openFile(DIR);
+    char stringToWriteTo[100];
+    sprintf(stringToWriteTo, "%d,%d,%d ", kasa.yirmiBesKurusSayisi, kasa.elliKurusSayisi, kasa.birTLSayisi);
+    fputs(stringToWriteTo, fp);
+}
+
+float totalOfSafe() {
+    float total = 0;
+    total += (kasa.birTLSayisi * 1) + (kasa.elliKurusSayisi * 0.50) + (kasa.yirmiBesKurusSayisi * 0.25);
+    return total;
+}
