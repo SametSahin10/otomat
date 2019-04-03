@@ -3,13 +3,11 @@
 #include <string.h>
 #include <time.h>
 
-FILE *openFile(char DIR[]);
-int findLineCount(FILE *fp);
-float creditInsertionUI();
-float productSelectionUi();
-int checkForMoneyJam();
+float creditInsertionUI(void);
+float productSelectionUi(void);
+int checkForMoneyJam(void);
 void processChange(float totalAmountOfChange);
-float totalOfSafe();
+float totalOfSafe(void);
 
 struct Kasa {
     int yirmiBesKurusSayisi;
@@ -37,36 +35,37 @@ float insertedAmount = 0;
 float amountToPay = 0;
 float change;
 
-const char DIR[] = "urunler.txt";
-FILE *fp;
+char urunler[] = "20,20,10\n"
+                 "1,su,30,50 Kurus\n"
+                 "2,cay,20,1 TL\n"
+                 "3,kahve,15,1.5 TL\n"
+                 "4,cikolata,50,1.75 TL\n"
+                 "5,biskuvi,100,2 TL";
 
 int main(void) {
-    fp = openFile(DIR);
-    int lineCount = findLineCount(fp);
-    fp = openFile(DIR);
-    char lines[lineCount][50];
+    sscanf(urunler, "%d,%d,%d"
+                    "%d,%[^,],%d,%f %[^\n]"
+                    "%d,%[^,],%d,%f %[^\n]"
+                    "%d,%[^,],%d,%f %[^\n]"
+                    "%d,%[^,],%d,%f %[^\n]"
+                    "%d,%[^,],%d,%f %s",
 
-    for(int i = 0; i < lineCount; i++) {
-        fgets(lines[i], 50, fp);
-    }
+                    &kasa.yirmiBesKurusSayisi, &kasa.elliKurusSayisi, &kasa.birTLSayisi
+                    ,&su.urunId, su.urunAd, &su.urunStokSayisi, &su.urunFiyat, su.urunFiyatTipi
+                    ,&cay.urunId, cay.urunAd, &cay.urunStokSayisi, &cay.urunFiyat, cay.urunFiyatTipi
+                    ,&kahve.urunId, kahve.urunAd, &kahve.urunStokSayisi, &kahve.urunFiyat, kahve.urunFiyatTipi
+                    ,&cikolata.urunId, cikolata.urunAd, &cikolata.urunStokSayisi, &cikolata.urunFiyat, cikolata.urunFiyatTipi
+                    ,&biskuvi.urunId, biskuvi.urunAd, &biskuvi.urunStokSayisi, &biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
 
-    fclose(fp);
-
-    sscanf(lines[0], "%d,%d,%d", &kasa.yirmiBesKurusSayisi, &kasa.elliKurusSayisi, &kasa.birTLSayisi);
-    sscanf(lines[1], "%d,%[^,],%d,%f%s", &su.urunId, su.urunAd, &su.urunStokSayisi, &su.urunFiyat, su.urunFiyatTipi);
-    sscanf(lines[2], "%d,%[^,],%d,%f%s", &cay.urunId, cay.urunAd, &cay.urunStokSayisi, &cay.urunFiyat, cay.urunFiyatTipi);
-    sscanf(lines[3], "%d,%[^,],%d,%f%s", &kahve.urunId, kahve.urunAd, &kahve.urunStokSayisi, &kahve.urunFiyat, kahve.urunFiyatTipi);
-    sscanf(lines[4], "%d,%[^,],%d,%f%s", &cikolata.urunId, cikolata.urunAd, &cikolata.urunStokSayisi, &cikolata.urunFiyat, cikolata.urunFiyatTipi);
-    sscanf(lines[5], "%d,%[^,],%d,%f%s", &biskuvi.urunId, biskuvi.urunAd, &biskuvi.urunStokSayisi, &biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
-
-//    printf("%d %s %d %f %s\n", su.urunId, su.urunAd, su.urunStokSayisi, su.urunFiyat, su.urunFiyatTipi);
-//    printf("%d %s %d %f %s\n", cay.urunId, cay.urunAd, cay.urunStokSayisi, cay.urunFiyat, cay.urunFiyatTipi);
-//    printf("%d %s %d %f %s\n", kahve.urunId, kahve.urunAd, kahve.urunStokSayisi, kahve.urunFiyat, kahve.urunFiyatTipi);
-//    printf("%d %s %d %f %s\n", cikolata.urunId, cikolata.urunAd, cikolata.urunStokSayisi,cikolata.urunFiyat, cikolata.urunFiyatTipi);
-//    printf("%d %s %d %f %s\n", biskuvi.urunId, biskuvi.urunAd, biskuvi.urunStokSayisi, biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
+    printf("%d,%d,%d\n", kasa.yirmiBesKurusSayisi, kasa.elliKurusSayisi, kasa.birTLSayisi);
+    printf("%d %s %d %.2f %s\n", su.urunId, su.urunAd, su.urunStokSayisi, su.urunFiyat, su.urunFiyatTipi);
+    printf("%d %s %d %.2f %s\n", cay.urunId, cay.urunAd, cay.urunStokSayisi, cay.urunFiyat, cay.urunFiyatTipi);
+    printf("%d %s %d %.2f %s\n", kahve.urunId, kahve.urunAd, kahve.urunStokSayisi, kahve.urunFiyat, kahve.urunFiyatTipi);
+    printf("%d %s %d %.2f %s\n", cikolata.urunId, cikolata.urunAd, cikolata.urunStokSayisi,cikolata.urunFiyat, cikolata.urunFiyatTipi);
+    printf("%d %s %d %.2f %s\n", biskuvi.urunId, biskuvi.urunAd, biskuvi.urunStokSayisi, biskuvi.urunFiyat, biskuvi.urunFiyatTipi);
+    printf("%s", "\n");
 
     //User Interface
-
     do {
         insertedAmount = creditInsertionUI();
     } while (insertedAmount == 0);
@@ -84,26 +83,7 @@ int main(void) {
     return 0;
 }
 
-FILE *openFile(char DIR[]) {
-    FILE *fp = fopen(DIR, "r+");
-    if(fp == NULL) {
-        printf("%s", "fp is null");
-    }
-    return fp;
-}
-
-int findLineCount(FILE *fp) {
-    int lineCount = 0;
-    int c;
-    while ((c = fgetc(fp)) != EOF) {
-        if ((char) c == '\n') {
-            lineCount++;
-        }
-    }
-    return lineCount;
-}
-
-float creditInsertionUI() {
+float creditInsertionUI(void) {
     int choice;
 
     do {
@@ -149,7 +129,7 @@ float creditInsertionUI() {
     return insertedAmount;
 }
 
-float productSelectionUi() {
+float productSelectionUi(void) {
     float priceOfProduct;
     int numOfSuPurchased = 0;
     int numOfCayPurchased = 0;
@@ -258,7 +238,7 @@ float productSelectionUi() {
     return amountToPay;
 }
 
-int checkForMoneyJam() {
+int checkForMoneyJam(void) {
     srand(time(NULL));
     int randomNumber = rand() % 4 + 1;
     printf("Random number is: %d", randomNumber);
@@ -273,10 +253,6 @@ int checkForMoneyJam() {
 }
 
 void processChange(float totalAmountOfChange) {
-    int numOfYirmiBesKurus = 0;
-    int numOfElliKurus = 0;
-    int numOfBirTL = 0;
-
     float total = totalOfSafe();
     if (totalAmountOfChange > total) {
         printf("%s", "Kasada yeterli para yoktur.");
@@ -284,44 +260,38 @@ void processChange(float totalAmountOfChange) {
         //Show warning on Display (Kasada yeterli para yoktur)
     }
 
-    if (totalAmountOfChange >= 1) {
-        numOfBirTL = (int) (totalAmountOfChange / 1);
-        if (kasa.birTLSayisi >= numOfBirTL) {
-            totalAmountOfChange -= (numOfBirTL * 1);
-            kasa.birTLSayisi -= numOfBirTL;
+    while (totalAmountOfChange >= 1) {
+        if (kasa.birTLSayisi > 0) {
+            totalAmountOfChange--;
+            kasa.birTLSayisi--;
+        } else {
+            break;
         }
-        printf("Para ustu: %.2f\n", totalAmountOfChange);
     }
 
-    if (totalAmountOfChange >= 0.50) {
-        numOfElliKurus = (int) (totalAmountOfChange / 0.50);
-        if (kasa.elliKurusSayisi >= numOfElliKurus) {
-            totalAmountOfChange -= (numOfElliKurus * 0.50);
-            kasa.elliKurusSayisi-= numOfElliKurus;
+    while (totalAmountOfChange >= 0.50) {
+        if (kasa.elliKurusSayisi > 0) {
+            totalAmountOfChange -= 0.50;
+            kasa.elliKurusSayisi--;
+        } else {
+            break;
         }
-        printf("Para ustu: %.2f\n", totalAmountOfChange);
     }
 
-    if (totalAmountOfChange >= 0.25) {
-        numOfYirmiBesKurus = (int) (totalAmountOfChange / 0.25);
-        if (kasa.yirmiBesKurusSayisi >= numOfYirmiBesKurus) {
-            totalAmountOfChange -= (numOfYirmiBesKurus * 0.25);
-            kasa.yirmiBesKurusSayisi -= numOfYirmiBesKurus;
+    while (totalAmountOfChange >= 0.25) {
+        if (kasa.yirmiBesKurusSayisi > 0) {
+            totalAmountOfChange -= 0.25;
+            kasa.yirmiBesKurusSayisi--;
+        } else {
+            break;
         }
-        printf("Para ustu: %.2f\n", totalAmountOfChange);
     }
 
-    printf("Bir TL Sayisi: %d\n", numOfBirTL);
-    printf("Elli kurus Sayisi: %d\n", numOfElliKurus);
-    printf("Yirmi Bes Kurus Sayisi: %d\n", numOfYirmiBesKurus);
-
-    fp = openFile(DIR);
-    char stringToWriteTo[100];
-    sprintf(stringToWriteTo, "%d,%d,%d ", kasa.yirmiBesKurusSayisi, kasa.elliKurusSayisi, kasa.birTLSayisi);
-    fputs(stringToWriteTo, fp);
+    sprintf(urunler, "%d,%d,%d ", kasa.yirmiBesKurusSayisi, kasa.elliKurusSayisi, kasa.birTLSayisi);
+    //write to array instead of file
 }
 
-float totalOfSafe() {
+float totalOfSafe(void) {
     float total = 0;
     total += (kasa.birTLSayisi * 1) + (kasa.elliKurusSayisi * 0.50) + (kasa.yirmiBesKurusSayisi * 0.25);
     return total;
